@@ -22,10 +22,12 @@
       <p class="mb-3">
         TOTAL PRICE : <span>{{ this.costAmount.toFixed(1) }}</span> ETH
       </p>
-      <button class="button-mint mb-3" @click="this.mint()">MINT</button>
-    </div>
 
-    <div>test</div>
+      <button class="button-mint mb-3" @click="this.mint()">MINT</button>
+      <p class="text-red-500 font-bold" v-if="displayError">
+        ERROR, REFRESH THE WEBSITE AND TRY AGAIN PLEASE
+      </p>
+    </div>
   </div>
 </template>
 
@@ -41,6 +43,7 @@ export default {
       cost: 0.2,
       accounts: [],
       destAddress: "0x4C8885667818F689E268e59e234d95D2F2E639b2",
+      displayError: false,
     };
   },
 
@@ -96,7 +99,7 @@ export default {
       }
     },
 
-    mint() {
+    async mint() {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
 
@@ -106,7 +109,11 @@ export default {
         value: ethers.utils.parseEther(this.costAmount.toString()),
       };
 
-      signer.sendTransaction(tx);
+      try {
+        await signer.sendTransaction(tx);
+      } catch (err) {
+        this.displayError = true;
+      }
     },
   },
 };
