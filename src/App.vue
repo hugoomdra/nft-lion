@@ -25,7 +25,7 @@
 
       <button class="button-mint mb-3" @click="this.mint()">MINT</button>
       <p class="text-red-500 font-bold" v-if="displayError">
-        ERROR, REFRESH THE WEBSITE AND TRY AGAIN PLEASE
+        ERROR, YOU DON'T HAVE ENOUGH ETH
       </p>
     </div>
   </div>
